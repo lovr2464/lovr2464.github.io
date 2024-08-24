@@ -1,0 +1,311 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>git基本操作 | 纸鸢花夏的博客</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/necessity/favicon.PNG"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.10"><!-- inject head--><link rel="canonical" href="http://example.com/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="Git 基本操作Git 是目前广泛使用的分布式版本控制系统，凭借其强大的功能和灵活性，受到了开发者的普遍好评。 我对 Git 的掌握程度并不高，在此我仅仅讲一些基本内容。 Git 的基本组成部分Git 总体上对于用户分为以下几部分内容： REPOSITORIES（仓库）：存储代码、历史记录和配置文"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="纸鸢花夏的博客"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/necessity/favicon.PNG"><link rel="apple-touch-icon" href="/img/necessity/favicon.PNG" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.10' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+
+                if (name && keyObj[name]) return
+
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+            addEventListenerPjax: (ele, event, fn, option = false) => {
+              ele.addEventListener(event, fn, option)
+              utils.addGlobalFn('pjax', () => {
+                  ele.removeEventListener(event, fn, option)
+              })
+          },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-08-23 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {"limit":200,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body id="body"><!-- universe--><!-- background img--><!-- loading--><!-- console--><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/C-STL/">C++STL<sup>1</sup></a><a href="/tags/git/">git<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">纸鸢花夏</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">git基本操作</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="solitude fa-solid fa-dice-d6"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/top_img.png" alt="git基本操作"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/%E5%B7%A5%E5%85%B7/">工具</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>git</span></a></div></div></div></div><h1 class="post-title">git基本操作</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="最后更新于 2024-08-24 22:17:13"><i class="post-meta-icon solitude fa-solid fa-arrow-rotate-right"></i><time datetime="2024-08-24T14:17:13.370Z">2024-08-24T14:17:13.370Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon solitude fa-solid fa-file-word" title="文章字数"></i><span class="word-count">1.2k</span><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="Git-基本操作"><a href="#Git-基本操作" class="headerlink" title="Git 基本操作"></a>Git 基本操作</h1><p>Git 是目前广泛使用的分布式版本控制系统，凭借其强大的功能和灵活性，受到了开发者的普遍好评。</p>
+<p>我对 Git 的掌握程度并不高，在此我仅仅讲一些<strong>基本内容</strong>。</p>
+<h2 id="Git-的基本组成部分"><a href="#Git-的基本组成部分" class="headerlink" title="Git 的基本组成部分"></a>Git 的基本组成部分</h2><p>Git 总体上对于用户分为以下几部分内容：</p>
+<ul>
+<li><strong>REPOSITORIES（仓库）</strong>：存储代码、历史记录和配置文件的地方，通常分为本地仓库和远程仓库。</li>
+<li><strong>BRANCHES（分支）</strong>：用于在同一个项目中并行开发的不同版本线，可以独立进行开发，最终合并到主线。</li>
+<li><strong>REMOTES（远程仓库）</strong>：远程托管的 Git 仓库，通常托管在 GitHub、GitLab 或 Bitbucket 上，方便团队协作。</li>
+<li><strong>STASHES（暂存区）</strong>：用于临时保存工作区的更改，可以稍后恢复或应用这些更改。</li>
+<li><strong>WORKTREES（工作区）</strong>：当前你正在操作的文件夹，其中包含了项目的所有文件。</li>
+<li><strong>COMMITS（提交）</strong>：记录在仓库历史中的每一个更改，每次提交都保存了代码库的一个新版本。</li>
+<li><strong>CONTRIBUTORS（贡献者）</strong>：记录项目中提交过代码的开发者，通常根据提交历史统计。</li>
+<li><strong>TAGS（标签）</strong>：用于标记特定提交的版本号或里程碑，通常用于发布软件版本。</li>
+</ul>
+<p>在 Git 中，基本操作通常有克隆，推送，创建仓库、分支，暂存与提交</p>
+<p>当然，Git 的命令并不仅限于这些。</p>
+<h2 id="基础-Git-操作讲解"><a href="#基础-Git-操作讲解" class="headerlink" title="基础 Git 操作讲解"></a>基础 Git 操作讲解</h2><ol>
+<li><p><strong>克隆仓库（Clone a Repository）</strong></p>
+<ul>
+<li><p>从远程仓库复制一份到本地使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> &lt;repository-url&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/user/repo.git</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>查看状态（Check Status）</strong></p>
+<ul>
+<li><p>查看当前工作区的状态，显示哪些文件发生了变化：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git status</code> 是你在进行提交前经常使用的命令，它会告诉你哪些文件被修改了，哪些文件在暂存区，以及哪些文件还没有被跟踪。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>添加文件（Stage Changes）</strong></p>
+<ul>
+<li><p>将文件添加到暂存区，准备提交：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add &lt;file-name&gt;  <span class="comment"># 添加单个文件</span></span><br><span class="line">git add .            <span class="comment"># 添加所有文件</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git add</code> 将文件的当前状态添加到下一次提交中。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>提交更改（Commit Changes）</strong></p>
+<ul>
+<li><p>提交已暂存的更改，记录在仓库中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;Your commit message&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git commit</code> 是一次性的，确保你在提交时描述了所做的更改，以便以后回顾历史时能够理解这次提交的目的。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>推送到远程仓库（Push to Remote Repository）</strong></p>
+<ul>
+<li><p>将本地的提交推送到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git push</code> 将本地分支的更改发送到远程仓库，你的团队成员可以从远程仓库中获取这些更新。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>拉取远程更改（Pull Changes from Remote）</strong></p>
+<ul>
+<li><p>从远程仓库拉取最新的更改并合并到本地分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git pull</code> 结合了 <code>git fetch</code> 和 <code>git merge</code>，拉取远程分支的最新更新并自动合并到你的当前分支中。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>创建和切换分支（Create and Switch Branches）</strong></p>
+<ul>
+<li><p>创建或者切换到现有分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：分支用于并行开发和试验新特性，使用分支可以使你的主线代码保持干净和稳定。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>合并分支（Merge Branches）</strong></p>
+<ul>
+<li><p>将其他分支的更改合并到当前分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git merge &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：在合并前最好使用 <code>git status</code> 和 <code>git diff</code> 查看合并的潜在冲突，并准备解决冲突。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>删除分支（Delete a Branch）</strong></p>
+<ul>
+<li><p>删除一个已经合并或不再需要的分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -d &lt;branch-name&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>强制删除一个未合并的分支：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch -D &lt;branch-name&gt;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p><strong>暂存工作区的更改（Stash Changes）</strong></p>
+<ul>
+<li><p>临时保存当前工作区的更改，并将工作区恢复到干净的状态（即 HEAD 提交的状态），与add并不同</p>
+</li>
+<li><p>如果你正在进行工作，但需要切换分支或暂时中断工作，可以将未提交的更改存储在 <code>stash</code> 中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>恢复暂存的更改：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git stash apply</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：<code>git stash</code> 是一个非常有用的命令，尤其是在你需要快速切换任务但又不想提交不完整的更改时。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>查看提交日志（View Commit Logs）</strong></p>
+<ul>
+<li><p>查看提交历史记录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：使用 <code>git log --oneline</code> 可以看到更简洁的提交历史，方便快速浏览。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>标记版本（Tagging a Version）</strong></p>
+<ul>
+<li><p>创建一个注解标签，标记一个特定的版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git tag -a v1.0.0 -m <span class="string">&quot;Release version 1.0.0&quot;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>推送标签到远程仓库：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin v1.0.0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>提示：标签非常适合用来标记发布点，例如 v1.0.0，v2.0.0，这样你可以轻松地找到特定版本的代码状态。</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>快去使用它吧！</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/necessity/favicon.PNG"></a><div class="post-copyright__author_name">纸鸢花夏的博客</div><div class="post-copyright__author_desc">what was I made for</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">纸鸢花夏的博客</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/git/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>git<span class="tagsPageCount">1</span></span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">C++STL常用数据结构的使用</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="/img/necessity/favicon.PNG"></div><div class="author-info__description_group"><div class="author-info__description"></div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">纸鸢花夏</div><div class="author-info__desc">what was I made for</div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Git-%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C"><span class="toc-text">Git 基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Git-%E7%9A%84%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-text">Git 的基本组成部分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80-Git-%E6%93%8D%E4%BD%9C%E8%AE%B2%E8%A7%A3"><span class="toc-text">基础 Git 操作讲解</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作"><img alt="git基本操作" src="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/top_img.png"></a><div class="content"><span class="title" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作">git基本操作</span><span class="article-recent_post_categories" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">工具</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用"><img alt="C++STL常用数据结构的使用" src="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/%E6%88%AA%E5%B1%8F2024-08-24%2021.37.19.png"></a><div class="content"><span class="title" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用">C++STL常用数据结构的使用</span><span class="article-recent_post_categories" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/">C++</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络"><img alt="计算机网络" src="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%88%AA%E5%B1%8F2024-08-23%2018.07.32.png"></a><div class="content"><span class="title" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络">计算机网络</span><span class="article-recent_post_categories" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">408</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">纸鸢花夏</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="Theme">Theme</a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=2.0.10"></script><script src="/js/main.js?v=2.0.10"></script><script src="/js/third_party/waterfall.min.js?v=2.0.10"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/08/24/Git基本操作/","2024/08/24/C++STL常用数据结构的使用/","2024/08/23/计算机网络/"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>
