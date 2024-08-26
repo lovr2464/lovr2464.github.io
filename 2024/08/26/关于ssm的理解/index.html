@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>关于ssm的理解 | 纸鸢花夏的博客</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/necessity/favicon.PNG"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.10"><!-- inject head--><link rel="canonical" href="http://example.com/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="本渣关于ssm的一点理解（不过大部分在写springmvc）"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="纸鸢花夏的博客"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/necessity/favicon.PNG"><link rel="apple-touch-icon" href="/img/necessity/favicon.PNG" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.10' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+
+                if (name && keyObj[name]) return
+
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+            addEventListenerPjax: (ele, event, fn, option = false) => {
+              ele.addEventListener(event, fn, option)
+              utils.addGlobalFn('pjax', () => {
+                  ele.removeEventListener(event, fn, option)
+              })
+          },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-08-23 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {"limit":200,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body id="body"><!-- universe--><!-- background img--><!-- loading--><!-- console--><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/C-STL/">C++STL<sup>1</sup></a><a href="/tags/git/">git<sup>1</sup></a><a href="/tags/ssm%E5%9F%BA%E7%A1%80/">ssm基础<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">纸鸢花夏</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">关于ssm的理解</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="solitude fa-solid fa-dice-d6"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/ssm.webp" alt="关于ssm的理解"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/java/">java</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ssm%E5%9F%BA%E7%A1%80/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>ssm基础</span></a></div></div></div></div><h1 class="post-title">关于ssm的理解</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="最后更新于 2024-08-26 10:46:18"><i class="post-meta-icon solitude fa-solid fa-arrow-rotate-right"></i><time datetime="2024-08-26T02:46:18.830Z">2024-08-26T02:46:18.830Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon solitude fa-solid fa-file-word" title="文章字数"></i><span class="word-count">1.8k</span><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="关于ssm的理解"><a href="#关于ssm的理解" class="headerlink" title="关于ssm的理解"></a>关于ssm的理解</h1><p>关于Spring体系，它无疑是庞大的，涵盖了从核心容器到各种子框架几乎所有Java开发中可能需要的功能。而每个Java程序员绕不开的基础便是SSM：Spring、Spring MVC、MyBatis。</p>
+<p>此篇，我不谈代码，只谈理解，我也是在学中。</p>
+<p>（本文大部分在讲spring mvc）</p>
+<h2 id="MVC与spring"><a href="#MVC与spring" class="headerlink" title="MVC与spring"></a>MVC与spring</h2><p><strong>MVC</strong>（Model-View-Controller，模型-视图-控制器）是软件工程中的一种软件架构模式，它把软件系统分为三个基本部分：模型（Model）、视图（View）、控制器（Controller）。大多数web开发都基于这种模式划分。</p>
+<ul>
+<li><p><strong>视图层 (View)</strong></p>
+<ul>
+<li><strong>由前端实现</strong>：在MVC架构中，视图层通常由前端技术实现，负责将数据展示给用户。前端开发者使用HTML、CSS、JavaScript以及相关的前端框架（如React、Vue.js、Angular等）来构建用户界面。</li>
+</ul>
+</li>
+<li><p><strong>控制层 (Controller)</strong></p>
+<p>Spring框架将控制层进一步分为表述层（Web层）和业务逻辑层。通过这种分层架构，开发者可以将业务逻辑与控制逻辑分开，使代码更加清晰、易于维护，并且提高了代码的可测试性。</p>
+<ul>
+<li>**表述层 (Web层)**：</li>
+</ul>
+<p>​	•<strong>职责</strong>：处理HTTP请求，调用业务逻辑层，选择适当的视图来响应请求。</p>
+<p>​	•<strong>实现方式</strong>：通常由带有@Controller或@RestController注解的类实现，负责映射URL到具体的处理方法。表述层主要负责接收用户的请求，并将请求数据传递给业务逻辑层。</p>
+<ul>
+<li>**业务逻辑层 (Service层)**：</li>
+</ul>
+<p>​	•<strong>职责</strong>：执行应用程序的核心业务逻辑，处理来自表述层的数据，并与持久化层交互以获取或存储数据。</p>
+<p>​	•<strong>实现方式</strong>：由带有@Service注解的类组成。业务逻辑层的类通常包含了主要的业务规则和流程，调用持久化层获取和保存数据。</p>
+</li>
+<li><p><strong>模型层 (Model)</strong></p>
+<p>模型层可以进一步划分为POJO和数据库持久化（dao）部分：</p>
+<ul>
+<li>**POJO (Plain Old Java Objects)**：</li>
+</ul>
+<p>​	•<strong>职责</strong>：POJO代表了应用程序中的数据对象。这些类通常没有特殊的行为，只是简单地封装了数据。它们可能与数据库中的表结构对应。</p>
+<p>​	•<strong>使用场景</strong>：POJO通常被业务逻辑层和持久化层使用，用于传递数据。</p>
+<ul>
+<li><strong>数据库持久化部分</strong>：</li>
+</ul>
+<p>​	•<strong>职责</strong>：负责与数据库的交互，包括CRUD操作（创建、读取、更新、删除）。</p>
+<p>​	•<strong>实现方式</strong>：通常由DAO（Data Access Object）层实现，使用@Repository注解标识。</p>
+<p><strong>图片来自尚硅谷，讲解了使用springmvc中的层次关系与交互</strong></p>
+<img src="image_ubxbkc-DZ5-4636769.png"></li>
+</ul>
+<h2 id="请求与响应的过程"><a href="#请求与响应的过程" class="headerlink" title="请求与响应的过程"></a>请求与响应的过程</h2><p>我们先讲解一下原生的jakarta接收请求与响应的过程。简单了解一下即可。</p>
+<ul>
+<li>首先，用户通过自己的浏览器发出某种http请求，可能带参数也可能不带</li>
+<li>然后服务端服务器软件将接收到请求，同时服务器软件也是Jakarta应用运行的容器</li>
+<li>请求到达服务器并通过过滤器进行预处理，过滤器负责执行如身份验证、日志记录等操作。</li>
+<li>经过过滤器处理后，请求到达Servlet，servlet用于处理HTTP请求并生成响应。在此，你可以调用自己写的方法等处理请求，或者直接书写处理。处理后将返回响应。</li>
+<li>再次通过过滤器</li>
+<li>返回用户</li>
+</ul>
+<p><strong>而在spring中的请求与响应过程如下</strong></p>
+<p>Spring框架中，处理HTTP请求的过程是非常核心的功能，它是基于servlet的。</p>
+<ul>
+<li><p><strong>客户端发出请求</strong></p>
+</li>
+<li><p><strong>请求到达DispatcherServlet</strong></p>
+<ul>
+<li>请求首先由Spring的核心组件<code>DispatcherServlet</code>接收。<code>DispatcherServlet</code>是一个前端控制器（Front Controller），负责将请求分发给适当的处理器。</li>
+<li><strong>配置</strong>：<code>DispatcherServlet</code>通常在<code>web.xml</code>中配置。</li>
+</ul>
+ <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcher<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>dispatcher<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p> 在Spring Boot中，<code>DispatcherServlet</code>由框架自动配置，无需手动设置。</p>
+</li>
+<li><p><strong>Handler Mapping映射请求</strong></p>
+<p><code>DispatcherServlet</code>接收到请求后，通过一个或多个<code>HandlerMapping</code>组件来确定哪个控制器（Controller）应处理该请求。<code>HandlerMapping</code>根据请求URL、HTTP方法以及可能的其他参数来查找合适的处理器。</p>
+<ul>
+<li><strong>实现</strong>：<code>@RequestMapping</code>、<code>@GetMapping</code>等注解用于映射请求到控制器方法。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/home&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">HomeController</span> &#123;</span><br><span class="line">    <span class="meta">@GetMapping(&quot;/welcome&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">welcome</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;Welcome to Spring MVC&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;welcome&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>HandlerAdapter调用处理器</strong></p>
+<ul>
+<li>一旦找到合适的处理器（通常是一个控制器方法），<code>DispatcherServlet</code>使用<code>HandlerAdapter</code>来调用处理器。<code>HandlerAdapter</code>负责执行处理器的业务逻辑</li>
+<li><strong>处理器</strong>：处理器通常是一个带有<code>@Controller</code>或<code>@RestController</code>注解的类，方法上可能有<code>@RequestMapping</code>、<code>@GetMapping</code>、<code>@PostMapping</code>等注解。控制器方法通常会调用业务逻辑层（Service层）进行实际的业务处理，业务逻辑层可能进一步调用数据访问层（DAO层）与数据库交互。这种分层架构使得代码结构清晰、职责分离，便于维护和扩展。</li>
+</ul>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Controller</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyController</span> &#123;</span><br><span class="line">    <span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(Model model)</span> &#123;</span><br><span class="line">        model.addAttribute(<span class="string">&quot;message&quot;</span>, <span class="string">&quot;Hello, Spring MVC!&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;helloView&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>响应发送回前端</strong></p>
+<ul>
+<li>处理完成，后端通常通过RESTful API（一般基于<strong>ResponseEntity</strong>）向前端提供数据</li>
+</ul>
+<p><strong>此外</strong></p>
+<ul>
+<li><p><strong>拦截器</strong>：Spring MVC允许在处理请求的各个阶段使用拦截器（Handler Interceptor）。拦截器可以在请求到达控制器之前、视图渲染之后执行额外的逻辑，如权限验证、日志记录等。</p>
+</li>
+<li><p><strong>异常处理</strong>：Spring MVC提供了全局异常处理机制，可以通过<code>@ControllerAdvice</code>和<code>@ExceptionHandler</code>注解来处理控制器方法中抛出的异常，并生成适当的响应。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>springMVC基于servlet，核心是DispatcherServlet，Handler Mapping，HandlerAdapter三个类。Handler Mapping负责路径映射，找到HandlerAdapter，然后HandlerAdapter调用处理器。</p>
+<p>最后引用一下尚硅谷赵伟风老师的理解。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1.  DispatcherServlet :  SpringMVC提供，我们需要使用web.xml配置使其生效，它是整个流程处理的核心，所有请求都经过它的处理和分发！\[ CEO ]</span><br><span class="line">2.  HandlerMapping :  SpringMVC提供，我们需要进行IoC配置使其加入IoC容器方可生效，它内部缓存handler(controller方法)和handler访问路径数据，被DispatcherServlet调用，用于查找路径对应的handler！\[秘书]</span><br><span class="line">3.  HandlerAdapter : SpringMVC提供，我们需要进行IoC配置使其加入IoC容器方可生效，它可以处理请求参数和处理响应数据数据，每次DispatcherServlet都是通过handlerAdapter间接调用handler，他是handler和DispatcherServlet之间的适配器！\[经理]</span><br><span class="line">4.  Handler : handler又称处理器，他是Controller类内部的方法简称，是由我们自己定义，用来接收参数，向后调用业务，最终返回响应结果！\[打工人]</span><br></pre></td></tr></table></figure>
+
+
+
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/necessity/favicon.PNG"></a><div class="post-copyright__author_name">纸鸢花夏的博客</div><div class="post-copyright__author_desc">what was I made for</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">纸鸢花夏的博客</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ssm%E5%9F%BA%E7%A1%80/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>ssm基础<span class="tagsPageCount">1</span></span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">git基本操作</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="/img/necessity/favicon.PNG"></div><div class="author-info__description_group"><div class="author-info__description"></div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">纸鸢花夏</div><div class="author-info__desc">what was I made for</div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3"><span class="toc-text">关于ssm的理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC%E4%B8%8Espring"><span class="toc-text">MVC与spring</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E4%B8%8E%E5%93%8D%E5%BA%94%E7%9A%84%E8%BF%87%E7%A8%8B"><span class="toc-text">请求与响应的过程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解"><img alt="关于ssm的理解" src="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/ssm.webp"></a><div class="content"><span class="title" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解">关于ssm的理解</span><span class="article-recent_post_categories" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/">java</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作"><img alt="git基本操作" src="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/top_img.png"></a><div class="content"><span class="title" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作">git基本操作</span><span class="article-recent_post_categories" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">工具</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用"><img alt="C++STL常用数据结构的使用" src="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/%E6%88%AA%E5%B1%8F2024-08-24%2021.37.19.png"></a><div class="content"><span class="title" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用">C++STL常用数据结构的使用</span><span class="article-recent_post_categories" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/">C++</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络"><img alt="计算机网络" src="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%88%AA%E5%B1%8F2024-08-23%2018.07.32.png"></a><div class="content"><span class="title" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络">计算机网络</span><span class="article-recent_post_categories" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">408</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">纸鸢花夏</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="Theme">Theme</a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=2.0.10"></script><script src="/js/main.js?v=2.0.10"></script><script src="/js/third_party/waterfall.min.js?v=2.0.10"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/08/26/关于ssm的理解/","2024/08/24/Git基本操作/","2024/08/24/C++STL常用数据结构的使用/","2024/08/23/计算机网络/"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>
