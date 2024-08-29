@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>算法基础-双指针法 | 纸鸢花夏的博客</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/necessity/favicon.PNG"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.10"><!-- inject head--><link rel="canonical" href="http://example.com/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="双指针法基础讲解与应用"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="纸鸢花夏的博客"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/necessity/favicon.PNG"><link rel="apple-touch-icon" href="/img/necessity/favicon.PNG" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.10' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+
+                if (name && keyObj[name]) return
+
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+            addEventListenerPjax: (ele, event, fn, option = false) => {
+              ele.addEventListener(event, fn, option)
+              utils.addGlobalFn('pjax', () => {
+                  ele.removeEventListener(event, fn, option)
+              })
+          },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-08-23 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {"limit":200,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body id="body"><!-- universe--><!-- background img--><!-- loading--><!-- console--><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/C-STL/">C++STL<sup>1</sup></a><a href="/tags/git/">git<sup>1</sup></a><a href="/tags/ssm%E5%9F%BA%E7%A1%80/">ssm基础<sup>1</sup></a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/">双指针法<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">纸鸢花夏</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">算法基础-双指针法</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="solitude fa-solid fa-dice-d6"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/IMG_3262.JPG" alt="算法基础-双指针法"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><span class="post-meta-categories"><a class="post-meta-categories" href="/categories/%E7%AE%97%E6%B3%95/">算法</a></span><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><span class="tags-name tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>双指针法</span></a></div></div></div></div><h1 class="post-title">算法基础-双指针法</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="最后更新于 2024-08-29 23:37:45"><i class="post-meta-icon solitude fa-solid fa-arrow-rotate-right"></i><time datetime="2024-08-29T15:37:45.194Z">2024-08-29T15:37:45.194Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon solitude fa-solid fa-file-word" title="文章字数"></i><span class="word-count">1.2k</span><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="算法基础-双指针法"><a href="#算法基础-双指针法" class="headerlink" title="算法基础-双指针法"></a>算法基础-双指针法</h1><p>最近做了点线性表相关的算法题，发现双指针法很好用，但是自己又不够熟练，所以在此整理一下。</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>双指针法，字面意思。一般用于线性表和字符串等处理。</p>
+<p><strong>双指针法的核心思想是同时使用两个指针，通常用于：</strong></p>
+<ul>
+<li><p><strong>移动两个指针</strong>：两个指针各自从不同的起点出发，向特定方向移动（比如从头到尾、从尾到头、从中间向两端等）。</p>
+</li>
+<li><p><strong>在一个数组&#x2F;链表中移动</strong>：两个指针在同一个数组或链表中以不同的步伐移动，用于解决诸如区间问题、判断是否有环、找到满足条件的子数组等问题。</p>
+</li>
+<li><p><strong>在两个数组&#x2F;链表之间移动</strong>：两个指针分别在两个数组或链表中移动，通常用于合并、比较等操作。</p>
+</li>
+</ul>
+<p>用起来会发现，大概是快慢指针和首尾指针两种类型</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><h3 id="遍历与合并"><a href="#遍历与合并" class="headerlink" title="遍历与合并"></a>遍历与合并</h3><p><strong>思想：分别设置指针指向两个线性表，按照条件选取指针后移然后进行操作</strong></p>
+<p>如<strong>归并</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">merge</span><span class="params">(vector&lt;<span class="type">int</span>&gt;&amp; A, vector&lt;<span class="type">int</span>&gt;&amp; B)</span> </span>&#123;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; result;</span><br><span class="line">    <span class="type">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; A.<span class="built_in">size</span>() &amp;&amp; j &lt; B.<span class="built_in">size</span>()) &#123;</span><br><span class="line">      	<span class="comment">//选小的</span></span><br><span class="line">        <span class="keyword">if</span> (A[i] &lt; B[j]) &#123;</span><br><span class="line">            result.<span class="built_in">push_back</span>(A[i++]);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            result.<span class="built_in">push_back</span>(B[j++]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  	<span class="comment">//后处理</span></span><br><span class="line">    <span class="keyword">while</span> (i &lt; A.<span class="built_in">size</span>()) result.<span class="built_in">push_back</span>(A[i++]);</span><br><span class="line">    <span class="keyword">while</span> (j &lt; B.<span class="built_in">size</span>()) result.<span class="built_in">push_back</span>(B[j++]);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="判断与检测"><a href="#判断与检测" class="headerlink" title="判断与检测"></a><strong>判断与检测</strong></h3><p><strong>思想：使用双指针以不同速度移动，检测结构中的某些特性或条件。</strong></p>
+<ul>
+<li><p><strong>判断链表是否有环</strong>：通过快慢指针判断链表中是否存在环。</p>
+</li>
+<li><p><strong>找到链表中的环起点</strong>：在检测到链表存在环后，找到环的起始节点。</p>
+</li>
+<li><p><strong>判断字符串是否为回文</strong>：通过双指针从两端向中间移动，判断字符串是否为回文。</p>
+</li>
+</ul>
+<p><strong>例子：判断链表是否有环。</strong></p>
+<p><strong>设置快慢指针，起点相同，慢指针每次走一步，快指针每次走两步，这样保证如果存在环的话，快指针会先转圈，并且由于每次步长差为1，快指针一定会追上慢指针，此时即可判断有环</strong></p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">bool</span> <span class="title">hasCycle</span><span class="params">(ListNode *head)</span> </span>&#123;</span><br><span class="line">    ListNode *slow = head, *fast = head;</span><br><span class="line">    <span class="keyword">while</span> (fast != <span class="literal">nullptr</span> &amp;&amp; fast-&gt;next != <span class="literal">nullptr</span>) &#123;</span><br><span class="line">        slow = slow-&gt;next;</span><br><span class="line">        fast = fast-&gt;next-&gt;next;</span><br><span class="line">        <span class="keyword">if</span> (slow == fast) <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p><strong>思想：通过两个指针来维护一个有效的区间，逐步遍历并更新这个区间，以找到符合条件的子序列。这个方法的核心思想是动态调整区间的起点和终点，确保在遍历过程中始终保持有效性。</strong></p>
+<p><strong>满足条件时逐步增大窗口，不满足时逐步缩小窗口，直到满足条件。不断重复，直至遍历结束。</strong>按照这个</p>
+<ul>
+<li><p><strong>寻找最长无重复连续子字符串</strong>：在一个字符串中，找到最长的不含重复字符的子字符串。</p>
+<ul>
+<li><strong>满足条件时逐步增大窗口，不满足时逐步缩小窗口，直到满足条件。不断重复，直至遍历结束</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">lengthOfLongestSubstring</span><span class="params">(string s)</span> </span>&#123;</span><br><span class="line">    unordered_map&lt;<span class="type">char</span>, <span class="type">int</span>&gt; map;</span><br><span class="line">    <span class="type">int</span> left = <span class="number">0</span>, right = <span class="number">0</span>, maxLength = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (right &lt; s.<span class="built_in">size</span>()) &#123;</span><br><span class="line">        <span class="type">char</span> c = s[right++];</span><br><span class="line">        map[c]++;</span><br><span class="line">        <span class="keyword">while</span> (map[c] &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            map[s[left++]]--;</span><br><span class="line">        &#125;</span><br><span class="line">        maxLength = <span class="built_in">max</span>(maxLength, right - left);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxLength;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照上述思想，相信你也会有以下问题的解决思路</p>
+</li>
+<li><p><strong>最长回文子串</strong>：找到字符串中的最长回文子串。</p>
+</li>
+<li><p><strong>满足条件的子数组</strong>：找到所有满足特定条件的子数组，比如和小于某个值、乘积小于某个值的子数组。</p>
+</li>
+<li><p><strong>最大频率子数组</strong>：在一个数组中找到出现次数最多的元素的最长连续子数组。</p>
+</li>
+</ul>
+<h3 id="查找满足条件子序列（懂得不多）"><a href="#查找满足条件子序列（懂得不多）" class="headerlink" title="查找满足条件子序列（懂得不多）"></a>查找满足条件子序列（懂得不多）</h3><ul>
+<li><p><strong>三数之和</strong>：在数组中找到三个数，使它们的和为零。</p>
+<ul>
+<li><strong>排序</strong></li>
+<li><strong>先固定一个位置，其余两个位置用首尾指针遍历</strong></li>
+</ul>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; <span class="built_in">threeSum</span>(vector&lt;<span class="type">int</span>&gt;&amp; nums) &#123;</span><br><span class="line">    vector&lt;vector&lt;<span class="type">int</span>&gt;&gt; result;</span><br><span class="line">    <span class="built_in">sort</span>(nums.<span class="built_in">begin</span>(), nums.<span class="built_in">end</span>());  <span class="comment">// 首先对数组进行排序</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; nums.<span class="built_in">size</span>(); i++) &#123;</span><br><span class="line">        <span class="comment">// 跳过重复元素</span></span><br><span class="line">        <span class="keyword">if</span> (i &gt; <span class="number">0</span> &amp;&amp; nums[i] == nums[i - <span class="number">1</span>]) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="type">int</span> left = i + <span class="number">1</span>;</span><br><span class="line">        <span class="type">int</span> right = nums.<span class="built_in">size</span>() - <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (left &lt; right) &#123;</span><br><span class="line">            <span class="type">int</span> sum = nums[i] + nums[left] + nums[right];</span><br><span class="line">            <span class="keyword">if</span> (sum == <span class="number">0</span>) &#123;</span><br><span class="line">                result.<span class="built_in">push_back</span>(&#123;nums[i], nums[left], nums[right]&#125;);</span><br><span class="line">                <span class="comment">// 移动左指针并跳过重复元素</span></span><br><span class="line">                <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[left] == nums[left + <span class="number">1</span>]) left++;</span><br><span class="line">                <span class="comment">// 移动右指针并跳过重复元素</span></span><br><span class="line">                <span class="keyword">while</span> (left &lt; right &amp;&amp; nums[right] == nums[right - <span class="number">1</span>]) right--;</span><br><span class="line">                <span class="comment">// 将指针继续向中间移动</span></span><br><span class="line">                left++;</span><br><span class="line">                right--;</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> (sum &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                left++;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                right--;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>双指针真的很好用也很常用。</p>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/necessity/favicon.PNG"></a><div class="post-copyright__author_name">纸鸢花夏的博客</div><div class="post-copyright__author_desc">what was I made for</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">纸鸢花夏的博客</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><span class="tags-punctuation"><i class="solitude fa-solid fa-hashtag"></i>双指针法<span class="tagsPageCount">1</span></span></a></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">关于ssm的理解</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="/img/necessity/favicon.PNG"></div><div class="author-info__description_group"><div class="author-info__description"></div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">纸鸢花夏</div><div class="author-info__desc">what was I made for</div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95"><span class="toc-text">算法基础-双指针法</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E4%B8%8E%E5%90%88%E5%B9%B6"><span class="toc-text">遍历与合并</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E4%B8%8E%E6%A3%80%E6%B5%8B"><span class="toc-text">判断与检测</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3"><span class="toc-text">滑动窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E6%89%BE%E6%BB%A1%E8%B6%B3%E6%9D%A1%E4%BB%B6%E5%AD%90%E5%BA%8F%E5%88%97%EF%BC%88%E6%87%82%E5%BE%97%E4%B8%8D%E5%A4%9A%EF%BC%89"><span class="toc-text">查找满足条件子序列（懂得不多）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/" title="算法基础-双指针法"><img alt="算法基础-双指针法" src="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/IMG_3262.JPG"></a><div class="content"><span class="title" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/" title="算法基础-双指针法">算法基础-双指针法</span><span class="article-recent_post_categories" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/">算法</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解"><img alt="关于ssm的理解" src="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/ssm.webp"></a><div class="content"><span class="title" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解">关于ssm的理解</span><span class="article-recent_post_categories" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/">java</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作"><img alt="git基本操作" src="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/top_img.png"></a><div class="content"><span class="title" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作">git基本操作</span><span class="article-recent_post_categories" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">工具</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用"><img alt="C++STL常用数据结构的使用" src="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/%E6%88%AA%E5%B1%8F2024-08-24%2021.37.19.png"></a><div class="content"><span class="title" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用">C++STL常用数据结构的使用</span><span class="article-recent_post_categories" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/">C++</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络"><img alt="计算机网络" src="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E6%88%AA%E5%B1%8F2024-08-23%2018.07.32.png"></a><div class="content"><span class="title" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" title="计算机网络">计算机网络</span><span class="article-recent_post_categories" href="/2024/08/23/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">408</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 By&nbsp;<a class="footer-bar-link" href="/">纸鸢花夏</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="Theme">Theme</a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=2.0.10"></script><script src="/js/main.js?v=2.0.10"></script><script src="/js/third_party/waterfall.min.js?v=2.0.10"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="https://cdnjs.cloudflare.com/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2024/08/29/算法基础-双指针法/","2024/08/26/关于ssm的理解/","2024/08/24/Git基本操作/","2024/08/24/C++STL常用数据结构的使用/","2024/08/23/计算机网络/"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>
