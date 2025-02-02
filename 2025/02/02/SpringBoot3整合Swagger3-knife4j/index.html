@@ -1,0 +1,197 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SpringBoot3整合Swagger3+knife4j | 纸鸢花夏的博客</title><noscript>开启JavaScript才能访问本站哦~</noscript><link rel="icon" href="/img/necessity/favicon.PNG"><!-- index.css--><link rel="stylesheet" href="/css/index.css?v=2.0.10"><!-- inject head--><link rel="canonical" href="https://lovr2464.github.io/2025/02/02/SpringBoot3%E6%95%B4%E5%90%88Swagger3-knife4j/"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"><!-- aplayer--><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.css"><!-- swiper--><!-- fancybox ui--><!-- katex--><!-- Open Graph--><meta name="description" content="1. 环境前提 java17+ SpringBoot3+ 2. 添加依赖** 在pom.xml中 ** 1234567&amp;lt;!-- Swagger + knife4j --&amp;gt; &amp;lt;dependency&amp;gt; &amp;lt;groupId&amp;gt;com.git"><!-- pwa--><meta name="apple-mobile-web-app-capable" content="纸鸢花夏的博客"><meta name="theme-color" content="var(--efu-main)"><meta name="apple-mobile-web-app-status-bar-style" content="var(--efu-main)"><link rel="bookmark" href="/img/necessity/favicon.PNG"><link rel="apple-touch-icon" href="/img/necessity/favicon.PNG" sizes="180x180"><script>console.log(' %c Solitude %c ' + '2.0.10' + ' %c https://github.com/everfu/hexo-theme-solitude',
+    'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff',
+    'background:#ff9a9a ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff',
+    'background:unset ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff')
+</script><script>(()=>{
+        const saveToLocal = {
+            set: function setWithExpiry(key, value, ttl) {
+                if (ttl === 0)
+                    return
+                const now = new Date()
+                const expiryDay = ttl * 86400000
+                const item = {
+                    value: value,
+                    expiry: now.getTime() + expiryDay
+                }
+                localStorage.setItem(key, JSON.stringify(item))
+            },
+            get: function getWithExpiry(key) {
+                const itemStr = localStorage.getItem(key)
+
+                if (!itemStr) {
+                    return undefined
+                }
+                const item = JSON.parse(itemStr)
+                const now = new Date()
+
+                if (now.getTime() > item.expiry) {
+                    localStorage.removeItem(key)
+                    return undefined
+                }
+                return item.value
+            }
+        };
+        window.utils = {
+            saveToLocal: saveToLocal,
+            getCSS: (url, id = false) => new Promise((resolve, reject) => {
+              const link = document.createElement('link')
+              link.rel = 'stylesheet'
+              link.href = url
+              if (id) link.id = id
+              link.onerror = reject
+              link.onload = link.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                link.onload = link.onreadystatechange = null
+                resolve()
+              }
+              document.head.appendChild(link)
+            }),
+            getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+              const script = document.createElement('script')
+              script.src = url
+              script.async = true
+              script.onerror = reject
+              script.onload = script.onreadystatechange = function() {
+                const loadState = this.readyState
+                if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+                script.onload = script.onreadystatechange = null
+                resolve()
+              }
+
+              Object.keys(attr).forEach(key => {
+                script.setAttribute(key, attr[key])
+              })
+
+              document.head.appendChild(script)
+            }),
+            addGlobalFn: (key, fn, name = false, parent = window) => {
+                const globalFn = parent.globalFn || {}
+                const keyObj = globalFn[key] || {}
+
+                if (name && keyObj[name]) return
+
+                name = name || Object.keys(keyObj).length
+                keyObj[name] = fn
+                globalFn[key] = keyObj
+                parent.globalFn = globalFn
+            },
+            addEventListenerPjax: (ele, event, fn, option = false) => {
+              ele.addEventListener(event, fn, option)
+              utils.addGlobalFn('pjax', () => {
+                  ele.removeEventListener(event, fn, option)
+              })
+          },
+        }
+    })()</script><!-- global head--><script>const GLOBAL_CONFIG = {
+    root: '/',
+    algolia: undefined,
+    localsearch: undefined,
+    runtime: '2024-08-23 00:00:00',
+    lazyload: {
+        enable: false,
+        error: '/img/error_load.avif'
+    },
+    copyright: false,
+    highlight: {"limit":200,"expand":true,"copy":true,"syntax":"highlight.js"},
+    randomlink: false,
+    lang: {"theme":{"dark":"已切换至深色模式","light":"已切换至浅色模式"},"copy":{"success":"复制成功","error":"复制失败"},"backtop":"返回顶部","time":{"day":"天前","hour":"小时前","just":"刚刚","min":"分钟前","month":"个月前"},"day":" 天","f12":"开发者模式已打开，请遵循GPL协议。","totalk":"无需删除空行，直接输入评论即可"},
+    aside: {
+        sayhello: {
+            morning: "✨ Good morning. It's a new day",
+            noon: "It's time for a midday break",
+            afternoon: "Tea time. 🍵",
+            night: "early bedtime",
+            goodnight: "Good night 😴",
+        },
+        sayhello2: [],
+        sayhello3: {
+            prefix: '好久不见，',
+            back: '欢迎再次回来，',
+        },
+    },
+    covercolor: {
+        enable: false
+    },
+    comment: false,
+    lightbox: 'null',
+    post_ai: false,
+    right_menu: false,
+    lure: false,
+    expire: false,
+};</script><!-- page-config head--><script id="config-diff">var PAGE_CONFIG = {
+    is_post: true,
+    is_page: false,
+    is_home: false,
+    page: '',
+    toc: true,
+    comment: false,
+    ai_text: false
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body id="body"><!-- universe--><!-- background img--><!-- loading--><!-- console--><!-- sidebar--><div id="sidebar" style="zoom: 1;"><div id="menu-mask" style="display: none;"></div><div id="sidebar-menus"><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">6</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a></div></div></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><span class="darkmode_switchbutton menu-child" onclick="sco.switchDarkMode()"><i class="solitude fa-solid fa-circle-half-stroke"></i><span>显示模式</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-widget card-tags card-archives card-webinfo card-allinfo"><div class="card-tag-cloud"><a href="/tags/C-STL/">C++STL<sup>1</sup></a><a href="/tags/git/">git<sup>1</sup></a><a href="/tags/ssm%E5%9F%BA%E7%A1%80/">ssm基础<sup>1</sup></a><a href="/tags/%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/">双指针法<sup>1</sup></a><a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络<sup>1</sup></a></div></div></div></div><!-- keyboard--><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav class="show" id="nav"><div id="nav-group"><div id="blog_name"><a id="site-name" href="/" title="返回博客主页"><span class="title">纸鸢花夏</span><i class="solitude fa-solid fa-home"></i></a></div><div id="page-name-mask"><div id="page-name"><a id="page-name-text" onclick="sco.toTop()">SpringBoot3整合Swagger3+knife4j</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>文章</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="solitude  fas fa-folder-closed"></i><span>全部文章</span></a></li><li><a class="site-page child" href="/categories/"><i class="solitude  fas fa-clone"></i><span>分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="solitude  fas fa-tags"></i><span>标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span>分享</span></a><ul class="menus_item_child"><li><a class="site-page child" href="/essay/"><i class="solitude  fas fa-toolbox"></i><span>随笔</span></a></li><li><a class="site-page child" href="/music/"><i class="solitude  fas fa-music"></i><span>音乐馆</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><span>友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><span>我的</span></a></div></div></div><div id="nav-left"></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机一篇文章" href="javascript:void(0);"><i class="solitude fa-solid fa-dice-d6"></i></a></div><div class="nav-button" id="nav-totop" onclick="sco.toTop()"><a class="totopbtn"><i class="solitude fa-solid fa-arrow-up"></i><span id="percent">0</span></a></div><div id="toggle-menu"><a class="site-page"><i class="solitude fa-solid fa-bars"></i></a></div></div></div></nav><div class="coverdiv" id="coverdiv"><img class="nolazyload" id="post-cover" src="/img/default.avif" alt="SpringBoot3整合Swagger3+knife4j"></div><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original" title="该文章为原创文章，注意版权协议">原创</a><div class="tag_share"><div class="post-meta__tag-list"></div></div></div></div><h1 class="post-title">SpringBoot3整合Swagger3+knife4j</h1><div id="post-meta"><div class="meta-secondline"><span class="post-meta-date" title="最后更新于 2025-02-02 16:27:12"><i class="post-meta-icon solitude fa-solid fa-arrow-rotate-right"></i><time datetime="2025-02-02T08:27:12.247Z">2025-02-02T08:27:12.247Z</time></span><span class="post-meta-wordcount"><i class="post-meta-icon solitude fa-solid fa-file-word" title="文章字数"></i><span class="word-count">429</span><span class="post-meta-separator"></span></span></div></div></div><section class="main-hero-waves-area waves-area"><svg class="waves-svg" xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto"><defs><path id="gentle-wave" d="M -160 44 c 30 0 58 -18 88 -18 s 58 18 88 18 s 58 -18 88 -18 s 58 18 88 18 v 44 h -352 Z"></path></defs><g class="parallax"><use href="#gentle-wave" x="48" y="0"></use><use href="#gentle-wave" x="48" y="3"></use><use href="#gentle-wave" x="48" y="5"></use><use href="#gentle-wave" x="48" y="7"></use></g></svg></section></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="1-环境前提"><a href="#1-环境前提" class="headerlink" title="1. 环境前提"></a>1. 环境前提</h2><ol>
+<li>java17+</li>
+<li>SpringBoot3+</li>
+</ol>
+<h2 id="2-添加依赖"><a href="#2-添加依赖" class="headerlink" title="2. 添加依赖"></a>2. 添加依赖</h2><p>** 在pom.xml中 **</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- Swagger + knife4j --&gt;</span></span><br><span class="line">       <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.xiaoymin<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>knife4j-openapi3-jakarta-spring-boot-starter<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.4.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">       <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-添加配置"><a href="#3-添加配置" class="headerlink" title="3. 添加配置"></a>3. 添加配置</h2><p>** 在 application.yaml 中 **</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># springdoc-openapi项目配置</span></span><br><span class="line"><span class="attr">springdoc:</span></span><br><span class="line">  <span class="attr">swagger-ui:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/swagger-ui.html</span> <span class="comment"># 基本swagger-ui的path</span></span><br><span class="line">    <span class="attr">tags-sorter:</span> <span class="string">alpha</span></span><br><span class="line">    <span class="attr">operations-sorter:</span> <span class="string">alpha</span></span><br><span class="line">  <span class="attr">api-docs:</span></span><br><span class="line">    <span class="attr">path:</span> <span class="string">/v3/api-docs</span> </span><br><span class="line">  <span class="attr">group-configs:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">group:</span> <span class="string">&#x27;default&#x27;</span></span><br><span class="line">      <span class="attr">paths-to-match:</span> <span class="string">&#x27;/**&#x27;</span></span><br><span class="line">      <span class="attr">packages-to-scan:</span> <span class="string">com.xxx.controller</span> <span class="comment"># controller的包位置</span></span><br><span class="line"><span class="comment"># knife4j的增强配置，不需要增强可以不配</span></span><br><span class="line"><span class="attr">knife4j:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">setting:</span></span><br><span class="line">    <span class="attr">language:</span> <span class="string">zh_cn</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>&#x2F;v3&#x2F;api-docs是 Springdoc OpenAPI 的默认路径，用于生成和提供 OpenAPI 规范（以前被称为 Swagger 文档）的 JSON 文件</li>
+<li>OpenAPI 规范：OpenAPI 是一种开放标准，用于描述 RESTful API 的接口，包含了 API 的端点、请求参数、响应数据结构等信息。Springdoc OpenAPI 生成的 &#x2F;v3&#x2F;api-docs 是以 JSON 格式提供的 API 规范，它符合 OpenAPI 3.0 标准。</li>
+<li>路径暴露：在 Spring Boot 项目中，&#x2F;v3&#x2F;api-docs 路径是默认用于暴露应用的 OpenAPI 文档的接口。访问该路径时，Springdoc OpenAPI 会返回描述整个 API 的 JSON 文件。可以通过这个文件生成 Swagger UI、进行 API 调试，或与其他工具进行集成。</li>
+</ul>
+<h2 id="4-写-Swagger-配置类"><a href="#4-写-Swagger-配置类" class="headerlink" title="4. 写 Swagger 配置类"></a>4. 写 Swagger 配置类</h2><p>** 配置类使用 .info 描述的是项目基本信息 **</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">import</span> io.swagger.v3.oas.models.OpenAPI;</span><br><span class="line"><span class="keyword">import</span> io.swagger.v3.oas.models.info.Info;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> 花夏</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SwaggerConfig</span> &#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="keyword">public</span> OpenAPI <span class="title function_">openAPI</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">OpenAPI</span>()</span><br><span class="line">                .info(<span class="keyword">new</span> <span class="title class_">Info</span>()</span><br><span class="line">                        .title(<span class="string">&quot;xxxx&quot;</span>)</span><br><span class="line">                        .description(<span class="string">&quot;xxxx接口文档&quot;</span>)</span><br><span class="line">                        .version(<span class="string">&quot;1.0&quot;</span>));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="5-访问"><a href="#5-访问" class="headerlink" title="5. 访问"></a>5. 访问</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://localhost:8080/doc.html">http://localhost:8080/doc.html</a>  knife4j的</li>
+<li><a target="_blank" rel="noopener" href="http://localhost:8080//swagger-ui.html">http://localhost:8080//swagger-ui.html</a>  swagger默认的</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author_group"><a class="post-copyright__author_img" href="/about/"><img class="post-copyright__author_img_front" src="/img/necessity/favicon.PNG"></a><div class="post-copyright__author_name">纸鸢花夏的博客</div><div class="post-copyright__author_desc">what was I made for</div></div><div class="post-tools" id="post-tools"><div class="post-tools-left"><div id="quit-box" onclick="RemoveRewardMask()"></div></div></div><div class="social-share"><div class="social-share-ico icon-link" onclick="utils.copy(&quot;https://lovr2464.github.io/2025/02/02/SpringBoot3%E6%95%B4%E5%90%88Swagger3-knife4j/&quot;)" title="复制文章链接"><i class="solitude fas fa-link"></i></div></div><div class="post-copyright__notice"><span class="post-copyright-info">本文是原创文章，采用<a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a>协议，完整转载请注明来自<a href="/">纸鸢花夏的博客</a></span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__tag-list"></div></div></div><nav class="needEndHide pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">算法基础-双指针法</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="card-info-avatar is-center"><div class="author-info__top-group"><div class="author-info__sayhi" id="author-info__sayhi" onclick="sco.changeSayHelloText()">sayhello.morning</div></div></div><div class="avatar-img-group"><img class="avatar-img" alt="头像" src="/img/necessity/favicon.PNG"></div><div class="author-info__description_group"><div class="author-info__description"></div><div class="author-info__description2"></div></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/about/"><div class="author-info__name">纸鸢花夏</div><div class="author-info__desc">what was I made for</div></a><div class="card-info-social-icons is-center"></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="solitude fa-solid fa-bars"></i><span>文章目录</span></div><div class="toc-content" id="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E7%8E%AF%E5%A2%83%E5%89%8D%E6%8F%90"><span class="toc-text">1. 环境前提</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%B7%BB%E5%8A%A0%E4%BE%9D%E8%B5%96"><span class="toc-text">2. 添加依赖</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE"><span class="toc-text">3. 添加配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%86%99-Swagger-%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="toc-text">4. 写 Swagger 配置类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E8%AE%BF%E9%97%AE"><span class="toc-text">5. 访问</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="solitude fa-solid fa-map"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/02/SpringBoot3%E6%95%B4%E5%90%88Swagger3-knife4j/" title="SpringBoot3整合Swagger3+knife4j"><img alt="SpringBoot3整合Swagger3+knife4j" src="/img/default.avif"></a><div class="content"><span class="title" href="/2025/02/02/SpringBoot3%E6%95%B4%E5%90%88Swagger3-knife4j/" title="SpringBoot3整合Swagger3+knife4j">SpringBoot3整合Swagger3+knife4j</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/" title="算法基础-双指针法"><img alt="算法基础-双指针法" src="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/IMG_3262.JPG"></a><div class="content"><span class="title" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/" title="算法基础-双指针法">算法基础-双指针法</span><span class="article-recent_post_categories" href="/2024/08/29/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80-%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95/">算法</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解"><img alt="关于ssm的理解" src="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/ssm.webp"></a><div class="content"><span class="title" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/" title="关于ssm的理解">关于ssm的理解</span><span class="article-recent_post_categories" href="/2024/08/26/%E5%85%B3%E4%BA%8Essm%E7%9A%84%E7%90%86%E8%A7%A3/">java</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作"><img alt="git基本操作" src="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/top_img.png"></a><div class="content"><span class="title" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/" title="git基本操作">git基本操作</span><span class="article-recent_post_categories" href="/2024/08/24/Git%E5%9F%BA%E6%9C%AC%E6%93%8D%E4%BD%9C/">工具</span></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用"><img alt="C++STL常用数据结构的使用" src="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/%E6%88%AA%E5%B1%8F2024-08-24%2021.37.19.png"></a><div class="content"><span class="title" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/" title="C++STL常用数据结构的使用">C++STL常用数据结构的使用</span><span class="article-recent_post_categories" href="/2024/08/24/C++STL%E5%B8%B8%E7%94%A8%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E7%9A%84%E4%BD%BF%E7%94%A8/">C++</span></div></div></div></div></div></div></main><footer id="footer"><div id="footer_deal"></div><div id="st-footer"></div><div id="footer-bar"><div class="footer-bar-links"><div class="footer-bar-left"><div class="copyright">© 2024 - 2025 By&nbsp;<a class="footer-bar-link" href="/">纸鸢花夏</a></div></div><div class="footer-bar-right"><a class="footer-bar-link" target="_blank" rel="noopener" href="https://github.com/everfu/hexo-theme-solitude" alt="Theme">Theme</a></div></div></div></footer></div><!-- right_menu--><!-- inject body--><div><script src="/js/utils.js?v=2.0.10"></script><script src="/js/main.js?v=2.0.10"></script><script src="/js/third_party/waterfall.min.js?v=2.0.10"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pjax/0.2.8/pjax.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/node-snackbar/0.1.16/snackbar.min.js"></script><script>var meting_api = 'https://meting.qjqq.cn/?server=:server&type=:type&id=:id&auth=:auth&r=:r';</script><script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/meting/2.0.1/Meting.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.2.4/pace.min.js"></script><div class="js-pjax"><script defer pjax src="https://cdnjs.cloudflare.com/ajax/libs/busuanzi/2.3.0/bsz.pure.mini.min.js"></script></div></div><!-- pjax--><script>const pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: ['title','#body-wrap','#site-config','meta[name="description"]','.js-pjax','meta[property^="og:"]','#config-diff'],
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+})
+
+document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+})
+
+document.addEventListener('pjax:complete', () => {
+    window.refreshFn()
+
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+        const newScript = document.createElement('script')
+        const content = item.text || item.textContent || item.innerHTML || ""
+        Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+        newScript.appendChild(document.createTextNode(content))
+        item.parentNode.replaceChild(newScript, item)
+    })
+
+    GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+})
+
+document.addEventListener('pjax:error', (e) => {
+    if (e.request.status === 404) {
+        pjax.loadUrl('/404.html')
+    }
+})</script><!-- theme--><script>initTheme = () => {
+    let isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const cachedMode = utils.saveToLocal.get('theme');
+    if (cachedMode === undefined) {
+        const nowMode =
+            isDarkMode ? 'dark' : 'light'
+        document.documentElement.setAttribute('data-theme', nowMode);
+    } else {
+        document.documentElement.setAttribute('data-theme', cachedMode);
+    }
+    typeof rm === 'object' && rm.mode(cachedMode === 'dark' && isDarkMode)
+}
+initTheme()</script><!-- google adsense--><!-- search--><!-- Tianli-Talk--><!-- music--></body></html><script>const posts=["2025/02/02/SpringBoot3整合Swagger3-knife4j/","2024/08/29/算法基础-双指针法/","2024/08/26/关于ssm的理解/","2024/08/24/Git基本操作/","2024/08/24/C++STL常用数据结构的使用/","2024/08/23/计算机网络/"];function toRandomPost(){ pjax.loadUrl(GLOBAL_CONFIG.root+posts[Math.floor(Math.random()*posts.length)]); }</script>
